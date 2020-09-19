@@ -1,14 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Employee from './Employee';
 
-const Employees = ({ department, employees, removeFromDepartment, destroyEmployee })=> {
+const Employees = props  => {
   return (
       <ul>
         {
-          employees.filter( employee => employee.departmentId === (department ? department.id : null )).map( employee => <Employee employee={ employee } removeFromDepartment={ removeFromDepartment } destroyEmployee={ destroyEmployee } key={ employee.id }/>)
+          !props.department ? props.employees.filter( employee => !employee.departmentId)
+          .map( employee => 
+          <Employee employee={ employee } key={ employee.id }/>) 
+          :
+          props.employees
+          .filter( employee => employee.departmentId === props.department.id)
+          .map( employee => 
+          <Employee employee={ employee } key={ employee.id }/>)
         }
       </ul>
   );
 };
 
-export default Employees;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    employees: state.employees,
+    department: ownProps.department
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(Employees);
