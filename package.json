@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "postinstall" : "webpack",
+    "start" : "npm server",
     "build:dev": "npm run build -- --watch --mode development",
     "start:dev": "nodemon server --ignore dist/ --ignore src/ & npm run build:dev"
   },
